@@ -103,7 +103,23 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    var results = [];    
+    var hasIterator = arguments.length > 2;
+    
+    _.each(array, function(val, index, coll) {
+      if (hasIterator) {
+        if (iterator(results[index - 1]) !== iterator(val)) {
+          results.push(val);
+        }
+      } else {
+        if (results.indexOf(val) === -1) {
+          results.push(val);
+        }
+      }
+    });
+    return results;
   };
+
 
 
   // Return the results of applying an iterator to each element.
