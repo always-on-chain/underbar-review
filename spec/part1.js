@@ -377,7 +377,7 @@
       });
 
       it('should apply a function to every value in an array', function() {
-        var multiplyByTwo = FILL_ME_IN;
+        var multiplyByTwo = function(n) { return n * 2; };
 
         expect(_.map([1, 2, 3], multiplyByTwo)).to.eql([2, 4, 6]);
       });
@@ -400,7 +400,7 @@
           { name: 'curly', age: 50 }
         ];
 
-        expect(_.pluck(people, 'name')).to.FILL_ME_IN(['moe', 'curly']);
+        expect(JSON.stringify(_.pluck(people, 'name'))).to.equal(JSON.stringify(['moe', 'curly']));
       });
 
       it('should not modify the original array', function() {
@@ -411,7 +411,7 @@
 
         _.pluck(people, 'name');
 
-        expect(people).to.FILL_ME_IN([{ name: 'moe', age: 30 }, { name: 'curly', age: 50 }]);
+        expect(JSON.stringify(people)).to.equal(JSON.stringify([{ name: 'moe', age: 30 }, { name: 'curly', age: 50 }]));
       });
     });
 
@@ -471,7 +471,8 @@
           // FILL_ME_IN
           // Add a line here that makes this test pass
           // for a working implementation of reduce
-          return memo;
+          
+          return orderTraversed.push(item);
         }, 10);
 
         expect(orderTraversed).to.eql([1, 2, 3, 4]);
