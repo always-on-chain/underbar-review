@@ -174,13 +174,13 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
     var hasAccumulator = arguments.length > 2;
-    _.each(collection, function(val) {
+    _.each(collection, function(val, index, coll) {
       if (hasAccumulator) {
         accumulator = iterator(accumulator, val);
-      } else {
-        accumulator = iterator(val);
-      }
-      
+      } else {        
+        accumulator = collection[0];
+        hasAccumulator = true;
+      }      
     });
     return accumulator;
   };
