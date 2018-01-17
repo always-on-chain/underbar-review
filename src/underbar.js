@@ -237,11 +237,36 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var args = Array.prototype.slice.call(arguments);   
+    
+    for (var i = 1; i < args.length; i++) {
+      var keys = Object.keys(args[i]);
+      if (keys.length > 0) {
+        for (var key in args[i]) {
+          obj[key] = args[i][key];
+        }
+      }
+    }      
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var args = Array.prototype.slice.call(arguments);
+    
+    for (var i = 1; i < args.length; i++) {
+      var keys = Object.keys(args[i]);
+      if (keys.length > 0) {
+        for (var key in args[i]) {
+          if (!obj.hasOwnProperty(key)) {
+            obj[key] = args[i][key];
+          }
+          
+        }
+      }
+    }
+    return obj;
   };
 
 
@@ -285,6 +310,21 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    
+    var alreadyComputed = false;
+    var value;
+    if (alreadyComputed) {
+      return value;
+    } else {
+      
+      
+    
+    return function() {
+      value = func.apply(this, arguments);
+      alreadyComputed = true;
+    }
+  }
+    
   };
 
   // Delays a function for the given number of milliseconds, and then calls
