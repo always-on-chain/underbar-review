@@ -311,19 +311,24 @@
   // instead if possible.
   _.memoize = function(func) {
     
-    var alreadyComputed = false;
-    var value;
-    if (alreadyComputed) {
-      return value;
-    } else {
-      
-      
-    
+    var alreadyCalled = false;
+    var result;
+
+    // TIP: We'll return a new function that delegates to the old one, but only
+    // if it hasn't been called before.
     return function() {
-      value = func.apply(this, arguments);
-      alreadyComputed = true;
-    }
-  }
+      if (!alreadyCalled) {
+        // TIP: .apply(this, arguments) is the standard way to pass on all of the
+        // infromation from one function call to another.
+        result = func.apply(this, arguments);
+        alreadyCalled = true;
+      }
+      if (arguments.length > 1) {
+        result = func.apply(this, arguments);
+      }
+      // The new function always returns the originally computed result.
+      return result;
+    };
     
   };
 
@@ -334,6 +339,10 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = Array.prototype.slice.call(arguments, 2);
+    return setTimeout(function() {
+      return func.apply(this, args);
+    }, wait);
   };
 
 
@@ -348,6 +357,15 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var oldArray = array.slice();
+    var random = Math.floor(Math.random() * Math.floor(array.length));
+    
+    for (var i = 0; i < array.length; i++) {
+      if (oldArray[i] !== array[random]) {
+        oldArray[random] = array[i];
+      }
+    }
+    return oldArray;
   };
 
 
